@@ -3,6 +3,7 @@
 #include "graph.h"
 #define PATH "Test2.txt"
 
+//Initialise un graphe à partir d'un fichier
 Graph* initGraphFromFile()
 {
 	int i;
@@ -12,10 +13,9 @@ Graph* initGraphFromFile()
 	Graph* graph;
 	
 	graph = malloc(sizeof(Graph));
-	
 	graph->nbLinks = 0;
 	
-	//Set nbLinks & nbPages
+	//Initialisation de nbLinks & nbPages à travers un parcours dans le fichier
     file = fopen(PATH, "r+");
 	
 	if (file==NULL){
@@ -23,22 +23,29 @@ Graph* initGraphFromFile()
 		exit(EXIT_FAILURE);
     }
     
+    i = 0;
     while ( fgets( raw, 100, file) != NULL ){
 		sscanf(raw,"%d %d", &srcPage, &destPage);
+		if(i<srcPage){
+			i = srcPage;
+		}
+		if(i<destPage){
+			i = destPage;
+		}
         graph->nbLinks++;
     }
-    graph->nbPages = srcPage+1;
+    graph->nbPages = i+1;
     
     fclose(file); 
 	
-    //Allocate tabs    
-    graph->value=(float*)malloc(graph->nbPages * sizeof(float));
+    //Allocation des différents tableaux    
+    graph->value=(double*)malloc(graph->nbPages * sizeof(double));
     
-    graph->newValue=(float*)malloc(graph->nbPages * sizeof(float));
+    graph->newValue=(double*)malloc(graph->nbPages * sizeof(double));
     
-    graph->probaPages=(float*)malloc(graph->nbPages * sizeof(float));
+    graph->probaPages=(double*)malloc(graph->nbPages * sizeof(double));
     
-    graph->probaLinks=(float*)malloc(graph->nbLinks * sizeof(float));
+    graph->probaLinks=(double*)malloc(graph->nbLinks * sizeof(double));
     
     graph->raw=(int*)malloc(graph->nbLinks * sizeof(int));
     
@@ -50,7 +57,7 @@ Graph* initGraphFromFile()
 		graph->probaPages[i] = 0;
 	}
 	
-    //Set tabs
+    //Remplissage des tableaux
     file = fopen(PATH, "r+");
 	
 	if (file==NULL){
@@ -82,6 +89,7 @@ Graph* initGraphFromFile()
 	return graph;
 }
 
+//Libère l'espace mémoire pris par un graphe
 void freeGraph(Graph* graph){
 	   
 	free(graph->value);
@@ -93,6 +101,7 @@ void freeGraph(Graph* graph){
 
 }
 
+//Affiche sur la console tous les liens d'un graphe
 void printGraph(Graph* graph){
 
 	int i;
