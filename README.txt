@@ -30,7 +30,7 @@ Pour utiliser ce programme :
 		
 	5 - Execution du programme
 	
-		Le programme vous demandera la page de départ, le facteur d'amortissement ainsi que le nombre d'itérations voulu,
+		Le programme vous demandera la page de départ et le facteur d'amortissement voulu,
 		puis s'éxecutera sur le graphe voulu.
 		
 	6 - Résultats
@@ -38,6 +38,10 @@ Pour utiliser ce programme :
 		Un fichier Result.txt sera créé (ou mis à jour s'il existe déjà) renseignant 2 valeurs par ligne:
 			* L'identifiant du sommet
 			* La chance d'être sur cette page après n itérations, n étant le chiffre que vous avez choisi plus tôt.
+		Un fichier Result_sorted.txt sera créé (ou mis à jour s'il existe déjà) renseignant 2 valeurs par ligne:
+			* L'identifiant du sommet
+			* La chance d'être sur cette page après n itérations, n étant le chiffre que vous avez choisi plus tôt.
+			* Les données sont en revanche trié de manière décroissante sur la deuxième valeure
 
 
 //Commentaires:

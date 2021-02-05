@@ -49,6 +49,7 @@ void pageRank(Graph* g, int startPage, float dampingFactor){
 		oldNorm = norm;
 		norm = 0;
 		max = 1/max;
+		scalar = 0;
 		//Pour toutes les pages
 		for(i=0;i<g->nbPages;i++){
 			
@@ -57,12 +58,6 @@ void pageRank(Graph* g, int startPage, float dampingFactor){
 			
 			//On calcul la norme du vecteur
 			norm += fabs(g->newValue[i] - g->value[i]);
-			
-		}
-		
-		scalar = 0;
-		//Pour toutes les pages
-		for(i=0;i<g->nbPages;i++){
 			
 			//On passe au clic suivant
 			g->value[i] = g->newValue[i];
