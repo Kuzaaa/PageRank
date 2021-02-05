@@ -3,12 +3,12 @@
  
 #include "graph.h"
 #include "pageRank.h"
+#include "exploitResult.h"
  
 int main() {
   
 	int startPage;
 	float dampingFactor;
-	int iterations;
 	Graph* g = initGraphFromFile();
 
 	printf("Sur quel page démarrer ? (entre 0 et %d)\n",g->nbPages);
@@ -25,15 +25,9 @@ int main() {
 		return 0;
 	}
 
-	printf("Combien d'itérations ? (au dessus de 0)\n");
-	scanf(" %d",&iterations);
-	if(iterations <= 0){
-		printf("Erreur, mauvais nombre d'itérations, choisissez un nombre au dessus de 0\n");
-		return 0;
-	}
-
-	pageRankWithDampingFactor(g,startPage,dampingFactor,iterations);
+	pageRank(g,startPage,dampingFactor);
 	printValue(g);
+	sort_and_print(g);
   
 	free(g);
   

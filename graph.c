@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "graph.h"
-#define PATH "Test2.txt"
+#define PATH "Test.txt"
 
 //Initialise un graphe à partir d'un fichier
 Graph* initGraphFromFile()

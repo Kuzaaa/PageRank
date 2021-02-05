@@ -46,8 +46,4 @@ Le graphe est stockée de manière à optimiser les calculs sur une matrice creu
 que la probabilité de passer de l'un à l'autre. Ces tableaux ont pour taille le nombre de valeur (donc de ligne de notre fichier texte contenant le graphe) présent dans la matrice.
 Il existe d'autres tableaux représentant la probabilité d'etre sur une certaine page au clic actuel, et au clic précédent.
 
-La méthode pageRank simple est implémenté mais nous ne l'utilisons plus. Si vous souhaitez l'utilisez, il faudra modifié le fichier main.c et appeler pageRank(g, startPage, iterations)
-à la place de la méthode actuelle.
-
-
 

@@ -1,56 +1,24 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "pageRank.h"
 
-//Algorithme PageRank simple
-void pageRank(Graph* g, int startPage, int it){
-
-	int iterations;
-	int i;
-	
-	g->value[startPage] = 1;
-	
-	//Pour toutes les itérations
-	for(iterations = 0; iterations < it; iterations++){
-		
-		//Pour tous les liens
-		for(i=0;i<g->nbLinks;i++){
-		
-			//Si la chance d'être à la page source à ce clic différent de 0
-			if(g->value[g->raw[i]]!=0){
-			
-				//On met à jour la chance d'être à la page de destinaton pour le clic suivant
-				g->newValue[g->columns[i]] += g->value[g->raw[i]] * g->probaLinks[i];
-				
-			}	
-		}
-		
-		//Pour toutes les pages
-		for(i=0;i<g->nbPages;i++){
-		
-			//On passe au clic suivant
-			g->value[i] = g->newValue[i];
-			g->newValue[i] = 0;
-		
-		}
-	}
-	
-}
-
 //Algorithme PageRank amelioré
-void pageRankWithDampingFactor(Graph* g, int startPage, float dampingFactor, int it){
+void pageRank(Graph* g, int startPage, float dampingFactor){
 	
-	int iterations;
-	int i;
+	int i,it = 0;
+	double max = 1;
 	double tmp,scalar;
+	double norm = 0, oldNorm;
+	double tol = 0.0000000001;
 	
 	g->value[startPage] = 1;
 	scalar = 1.0;
 	tmp = (1-dampingFactor) / g->nbPages;
 	
-	//Pour toutes les itérations
-	for(iterations = 0; iterations < it; iterations++){
-		
+	//Jusqu'à ce que les différences des normes du vecteur de l'itération k et k-1 soient inférieurs ou égale à notre tolérance
+	do{ 	
+		it++;
 		//Pour tous les liens
 		for(i=0;i<g->nbLinks;i++){
 			
@@ -63,6 +31,7 @@ void pageRankWithDampingFactor(Graph* g, int startPage, float dampingFactor, int
 			}
 		}
 		
+		max = 0;
 		//Pour toutes les pages
 		for(i=0;i<g->nbPages;i++){
 		
@@ -70,19 +39,40 @@ void pageRankWithDampingFactor(Graph* g, int startPage, float dampingFactor, int
 			//Grâce au facteur d'amortissement
 			g->newValue[i] = dampingFactor * g->newValue[i] + (tmp * scalar);
 			
+			//On calcul le max
+			if(max < g->newValue[i]){
+				max = g->newValue[i];
+			}
+			
+		}
+		
+		oldNorm = norm;
+		norm = 0;
+		max = 1/max;
+		//Pour toutes les pages
+		for(i=0;i<g->nbPages;i++){
+			
+			//On normalise en divisant par le max
+			g->newValue[i] = g->newValue[i] * max;
+			
+			//On calcul la norme du vecteur
+			norm += fabs(g->newValue[i] - g->value[i]);
+			
 		}
 		
 		scalar = 0;
 		//Pour toutes les pages
 		for(i=0;i<g->nbPages;i++){
-		
+			
 			//On passe au clic suivant
 			g->value[i] = g->newValue[i];
 			g->newValue[i] = 0;
 			scalar += g->value[i];
 			
 		}
-	}
+	}while(fabs((norm - oldNorm)) >= tol);
+	
+	printf("it %d\n",it);
 	
 }
 
