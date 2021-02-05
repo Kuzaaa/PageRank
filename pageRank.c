@@ -14,6 +14,8 @@ void pageRank(Graph* g, int startPage, float dampingFactor){
 	
 	g->value[startPage] = 1;
 	scalar = 1.0;
+	
+	//On calcul tmp ici afin d'éviter de le calculer plusieurs fois par clics
 	tmp = (1-dampingFactor) / g->nbPages;
 	
 	//Jusqu'à ce que les différences des normes du vecteur de l'itération k et k-1 soient inférieurs ou égale à notre tolérance
@@ -48,8 +50,11 @@ void pageRank(Graph* g, int startPage, float dampingFactor){
 		
 		oldNorm = norm;
 		norm = 0;
-		max = 1/max;
 		scalar = 0;
+		
+		//On évite de faire la division plusieurs fois
+		max = 1/max;
+		
 		//Pour toutes les pages
 		for(i=0;i<g->nbPages;i++){
 			
@@ -67,7 +72,7 @@ void pageRank(Graph* g, int startPage, float dampingFactor){
 		}
 	}while(fabs((norm - oldNorm)) >= tol);
 	
-	printf("it %d\n",it);
+	printf("itération nécessaire pour la tolérance %.10f: %d\n",tol,it);
 	
 }
 

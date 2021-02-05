@@ -32,8 +32,12 @@ Graph* initGraphFromFile()
 		if(i<destPage){
 			i = destPage;
 		}
+		
+		//Le nombre de lignes du fichier correspondra à notre nombre de liens
         graph->nbLinks++;
     }
+    
+    //La valeur la plus grande de notre fichier correspondra à notre nombre de pages
     graph->nbPages = i+1;
     
     fclose(file); 
